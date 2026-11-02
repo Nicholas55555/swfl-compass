@@ -89,7 +89,40 @@ Regenerate with the app running: `backend/.venv/Scripts/python scripts/export_sa
   `scripts/record_demo.py` and `scripts/capture_features.py` (Playwright). Re-record with the app running:
   `backend/.venv/Scripts/python -m pip install playwright imageio-ffmpeg && backend/.venv/Scripts/python -m playwright install chromium && backend/.venv/Scripts/python scripts/record_demo.py`
 
-## Run (Windows)
+## Run with Docker (recommended)
+Only prerequisite: [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine with Compose v2).
+
+```bash
+git clone https://github.com/Nicholas55555/swfl-compass.git   # or download the release zip
+cd swfl-compass
+cp .env.example .env          # Windows: copy .env.example .env
+# edit .env: set GEMINI_API_KEY (and optionally GOOGLE_MAPS_API_KEY)
+docker compose up -d --build
+```
+Open **http://localhost:8080**. Stop with `docker compose down`.
+
+Three containers: `frontend` (React build served by nginx, which proxies `/api` with streaming
+intact), `backend` (FastAPI agent) and `searxng` (pinned search engine, internal only).
+
+**API keys are Docker configuration.** Compose reads them from `.env` next to `docker-compose.yml`,
+or from your shell / CI environment, which take precedence:
+
+```bash
+GEMINI_API_KEY=your-key GOOGLE_MAPS_API_KEY=your-maps-key docker compose up -d
+```
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `GEMINI_API_KEY` | ✅ | LLM + embeddings ([get one](https://aistudio.google.com/apikey)). Compose refuses to start without it |
+| `GOOGLE_MAPS_API_KEY` | optional | Verified places + map pins (enable **Places API (New)**) |
+| `APP_PORT` | optional | Host port for the UI (default `8080`) |
+| `GEMINI_MODEL`, `GEMINI_FALLBACKS` | optional | Model overrides |
+
+Changed a key? Run `docker compose up -d` again (no rebuild needed).
+
+**Offline / no Docker Hub:** `docker load -i searxng/searxng-image.tar` first, if you have the saved image.
+
+## Run locally for development (Windows)
 Prereqs: Python 3.12, Node 20, Docker Desktop running.
 
 **One click:** run `start.bat`. On first run it creates the venv, installs packages and opens
@@ -113,10 +146,7 @@ npm run dev                 # http://localhost:5173
 **Offline SearXNG image (optional):** `docker save searxng/searxng:2025.7.19-b95a3e9 -o searxng/searxng-image.tar`.
 The backend loads it automatically if the image isn't present. It's gitignored (~65 MB).
 
-**Run SearXNG yourself (optional):** `docker compose up -d`, then set
-`SEARXNG_BASE_URL=http://localhost:8888` in `backend/.env`.
-
-### Keys (`backend/.env`)
+### Keys for local development (`backend/.env`)
 | Variable | Needed for |
 |---|---|
 | `GEMINI_API_KEY` | everything (LLM + embeddings) |

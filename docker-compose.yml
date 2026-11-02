@@ -1,15 +1,40 @@
-# Optional: run SearXNG yourself instead of letting the backend auto-start it.
-#   docker compose up -d
-#   then set SEARXNG_BASE_URL=http://localhost:8888 in backend/.env
+# SWFL Compass: full stack in Docker.
+#
+#   1. cp .env.example .env      (then put your API keys in .env)
+#   2. docker compose up -d --build
+#   3. open http://localhost:8080
+#
+# Keys can also come straight from your shell / CI environment instead of .env.
+name: swfl-compass
+
 services:
   searxng:
     image: searxng/searxng:2025.7.19-b95a3e9
-    container_name: swfl-compass-searxng-compose
-    ports:
-      - "8888:8080"
     volumes:
       - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
-    dns:
+    dns: # venue / campus Wi-Fi DNS is often flaky inside Docker
       - 1.1.1.1
       - 8.8.8.8
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    image: swfl-compass-backend:1.0.0
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:?Set GEMINI_API_KEY in .env (see .env.example)}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.1-flash-lite}
+      GEMINI_FALLBACKS: ${GEMINI_FALLBACKS:-gemini-3-flash-preview,gemini-3.5-flash-lite}
+      SEARXNG_BASE_URL: http://searxng:8080
+    depends_on:
+      - searxng
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    image: swfl-compass-frontend:1.0.0
+    ports:
+      - "${APP_PORT:-8080}:80"
+    depends_on:
+      - backend
     restart: unless-stopped
