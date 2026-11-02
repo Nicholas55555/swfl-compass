@@ -21,8 +21,18 @@ practical guide** that you can download as Markdown or print to PDF.
 | ![Map](docs/demo/04-map.png) | ![Resource summary](docs/demo/05-resources-summary.png) |
 | **Itinerary builder** | **Generated itinerary document** |
 | ![Itinerary builder](docs/demo/07-itinerary-builder.png) | ![Itinerary](docs/demo/08-itinerary-doc.png) |
-| **Itinerary places with ratings and open-now** | **Works on phones** |
-| ![Itinerary map](docs/demo/10-itinerary-map.png) | <img src="docs/demo/11-mobile.png" alt="Mobile" width="260"> |
+| **Itinerary places with ratings and open-now** | **Personas change the starter questions** |
+| ![Itinerary map](docs/demo/10-itinerary-map.png) | ![Student persona](docs/demo/12-student-welcome.png) |
+| **Follow-up uses RAG memory: “Found 5 relevant passages”** | **Guides with checklists** |
+| ![RAG follow-up steps](docs/demo/13-followup-rag-steps.png) | ![Guide](docs/demo/15-guide-doc.png) |
+
+**On phones**
+
+<img src="docs/demo/11-mobile.png" alt="Mobile welcome" width="230"> <img src="docs/demo/16-mobile-answer.png" alt="Mobile answer" width="230"> <img src="docs/demo/17-mobile-map.png" alt="Mobile map" width="230">
+
+**Exported documents** (real PDFs in [`docs/samples/`](docs/samples/))
+
+<a href="docs/samples/itinerary-3-day-fort-myers-family.pdf"><img src="docs/samples/previews/itinerary-3-day-fort-myers-family-p1.png" alt="Itinerary PDF" width="230"></a> <a href="docs/samples/guide-hurricane-prep-renters-lee-county.pdf"><img src="docs/samples/previews/guide-hurricane-prep-renters-lee-county-p1.png" alt="Guide PDF" width="230"></a> <a href="docs/samples/answer-fgcu-to-downtown-without-car.pdf"><img src="docs/samples/previews/answer-fgcu-to-downtown-without-car-p1.png" alt="Answer PDF" width="230"></a> <a href="docs/samples/summary-fwc-red-tide-status.pdf"><img src="docs/samples/previews/summary-fwc-red-tide-status-p1.png" alt="Summary PDF" width="230"></a>
 
 ## Features
 - **Agentic research**: Gemini function-calling loop. Each step streams live to the UI
@@ -73,10 +83,10 @@ Real, unedited results from the app (Markdown + PDF + raw JSON) in [`docs/sample
 Regenerate with the app running: `backend/.venv/Scripts/python scripts/export_samples.py`.
 
 ## Presentation & demo
-- `presentation/SWFL-Compass.pptx`: 10-slide hackathon deck with speaker notes; the demo video is embedded on slide 4.
+- `presentation/SWFL-Compass.pptx`: 18-slide hackathon deck with speaker notes: problem, solution, embedded demo video (slide 4), a feature tour (personas, live research, Google Maps places, resources, RAG memory, itinerary builder, real itinerary/guide PDF outputs, exports, mobile), architecture and what's next.
   Rebuild with `cd presentation && npm install && npm run build`.
 - `docs/demo/`: demo video (MP4 + GIF) and screenshots, recorded from the running app by
-  `scripts/record_demo.py` (Playwright). Re-record with the app running:
+  `scripts/record_demo.py` and `scripts/capture_features.py` (Playwright). Re-record with the app running:
   `backend/.venv/Scripts/python -m pip install playwright imageio-ffmpeg && backend/.venv/Scripts/python -m playwright install chromium && backend/.venv/Scripts/python scripts/record_demo.py`
 
 ## Run (Windows)

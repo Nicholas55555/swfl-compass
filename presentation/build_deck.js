@@ -10,7 +10,7 @@ const fa = require("react-icons/fa");
 const md = require("react-icons/md");
 
 const DEMO = path.join(__dirname, "..", "docs", "demo");
-const OUT = path.join(__dirname, "SWFL-Compass.pptx");
+const OUT = path.join(__dirname, process.env.DECK_OUT || "SWFL-Compass.pptx");
 const img = (n) => path.join(DEMO, n);
 
 // Gulf-coast palette: deep mangrove, gulf blue, FGCU green, sunset accent
@@ -173,6 +173,8 @@ const shadow = () => ({ type: "outer", color: "000000", blur: 8, offset: 3, angl
     s.addNotes("Click play. A visitor asks about Naples beaches and red tide. You can see each agent step live, then the sourced answer, map pins from Google Places, resources with a one-click summary of the FWC red tide page, and finally a two-day Naples itinerary built from the form.");
   }
 
+  await require("./feature_slides")({ pres, P, ic, img, iconCircle, screenshot, shadow });
+
   // 5 ─ Architecture
   {
     const s = pres.addSlide({ masterName: "CONTENT" });
@@ -199,42 +201,6 @@ const shadow = () => ({ type: "outer", color: "000000", blur: 8, offset: 3, angl
     });
     s.addText("Answer + resources + follow-ups, chosen only from what the agent actually saw", { x: 0.6, y: 5.25, w: 6.4, h: 0.8, fontSize: 15, italic: true, color: P.mangrove, margin: 0, isTextBox: true });
     s.addNotes("The React front end streams from a FastAPI backend. Gemini runs a tool loop: SearXNG web search we host ourselves, a page reader, Google Places for verified locations, and a per-chat vector store so follow-ups and documents build on earlier research.");
-  }
-
-  // 6 ─ Trust
-  {
-    const s = pres.addSlide({ masterName: "CONTENT" });
-    s.addText("Grounded, not guessed", { placeholder: "title" });
-    screenshot(s, "05-resources-summary.png", 0.6, 1.6, 6.6, "Resource card with a one-click summary of the FWC red tide status page");
-    const pts = [
-      [ic.book, "Links only from pages it read", "Resources are picked by index from sources the agent actually saw: no invented URLs"],
-      [ic.map, "Places checked on Google Maps", "Addresses, ratings and open-now come from the Places API, not the model"],
-      [ic.shield, "Official sources first", "Prefers .gov, FWC, NWS and county sites, and says to verify anything time-sensitive"],
-    ];
-    pts.forEach(([data, head, body], i) => {
-      const y = 1.65 + i * 1.5;
-      iconCircle(s, data, 7.65, y, 0.7, i === 2 ? P.sunset : i ? P.gulf : P.green);
-      s.addText(head, { x: 8.55, y: y - 0.02, w: 4.2, h: 0.4, fontSize: 18, bold: true, color: P.ink, margin: 0, isTextBox: true });
-      s.addText(body, { x: 8.55, y: y + 0.4, w: 4.2, h: 0.85, fontSize: 14, color: P.muted, margin: 0, valign: "top", isTextBox: true });
-    });
-    s.addNotes("For safety topics, trust matters. Every link comes from a page the agent read, places come from Google Maps, and the summary here is of the actual FWC red tide page, including their phone line and update schedule.");
-  }
-
-  // 7 ─ Itinerary
-  {
-    const s = pres.addSlide({ masterName: "CONTENT" });
-    s.addText("From an answer to a plan you can take with you", { placeholder: "title" });
-    screenshot(s, "08-itinerary-doc.png", 0.6, 1.6, 5.85, "Generated 2-day Naples itinerary document");
-    screenshot(s, "10-itinerary-map.png", 6.9, 1.6, 5.85, "Itinerary places pinned on a map with Google ratings");
-    const chips = ["🗺️ Day-by-day itinerary", "📄 Practical guides", "📍 Map with verified places", "⬇ Download .md", "🖨 Print / Save PDF"];
-    let x = 0.6;
-    chips.forEach((t) => {
-      const w = 0.35 + t.length * 0.085;
-      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 5.75, w, h: 0.45, rectRadius: 0.22, fill: { color: P.sand }, line: { color: P.line } });
-      s.addText(t, { x, y: 5.75, w, h: 0.45, fontSize: 13, color: P.ink, align: "center", valign: "middle", margin: 0, isTextBox: true });
-      x += w + 0.15;
-    });
-    s.addNotes("Pick days, a home base and interests and the agent researches a full itinerary: morning, afternoon and evening, places verified on Google Maps, where to eat, practical tips like heat and red tide checks, and sources. Download it or print it as a PDF. Guides work the same way for any topic, like hurricane prep for renters.");
   }
 
   // 8 ─ Engineering
@@ -295,7 +261,7 @@ const shadow = () => ({ type: "outer", color: "000000", blur: 8, offset: 3, angl
     // phone capture is 780x1688 (aspect 0.462)
     const mh = 5.7, mw = mh * 0.462;
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 9.3 - 0.12, y: 0.9 - 0.12, w: mw + 0.24, h: mh + 0.24, rectRadius: 0.3, fill: { color: "1C1C1C" }, line: { color: "3A3A3A", width: 1 }, shadow: shadow() });
-    s.addImage({ path: img("11-mobile.png"), x: 9.3, y: 0.9, w: mw, h: mh, altText: "SWFL Compass on a phone" });
+    s.addImage({ path: img("16-mobile-answer.png"), x: 9.3, y: 0.9, w: mw, h: mh, altText: "SWFL Compass answer on a phone" });
     s.addText("Works on phones too", { x: 9.0, y: 6.85, w: mw + 0.6, h: 0.35, fontSize: 12, color: "9FC3BA", align: "center", margin: 0, isTextBox: true });
     s.addNotes("Thanks! The code, this deck and the demo video are on GitHub. Happy to take questions.");
   }
