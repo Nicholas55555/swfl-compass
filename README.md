@@ -5,7 +5,7 @@ or visit Southwest Florida.
 
 ![SWFL Compass demo](docs/demo/swfl-compass-demo.gif)
 
-▶️ **[Full demo video (MP4, 1 min)](docs/demo/swfl-compass-demo.mp4)** · 📊 **[Presentation (PPTX)](presentation/SWFL-Compass.pptx)**
+▶️ **[Full demo video (MP4, 1 min)](docs/demo/swfl-compass-demo.mp4)** · 📊 **[Presentation (PPTX)](presentation/SWFL-Compass.pptx)** · 📂 **[Sample outputs](docs/samples/)**
 
 Ask a question and the agent searches the web, reads pages, checks real places on Google Maps,
 answers with links and a map, points you to the most helpful resources, summarizes any of them on
@@ -61,6 +61,16 @@ searxng/  settings.yml (+ optional saved image) — the search engine this app r
 - **Resilience / cost**: cheapest model first (`gemini-3.1-flash-lite`) with fallbacks on
   overload; retries on empty or malformed responses; if research fails mid-loop, the agent answers
   from what it has gathered.
+
+## Sample outputs
+Real, unedited results from the app (Markdown + PDF + raw JSON) in [`docs/samples/`](docs/samples/):
+
+- 🗺️ **[3-day Fort Myers family itinerary (PDF)](docs/samples/itinerary-3-day-fort-myers-family.pdf)**: 9 Google-verified places with ratings and Maps links
+- 📄 **[Hurricane prep guide for Lee County renters (PDF)](docs/samples/guide-hurricane-prep-renters-lee-county.pdf)**: checklists, official contacts, sources
+- 💬 **[FGCU → downtown Fort Myers without a car (PDF)](docs/samples/answer-fgcu-to-downtown-without-car.pdf)**: chat answer with resources and follow-ups
+- ✨ **[FWC red tide status summary (PDF)](docs/samples/summary-fwc-red-tide-status.pdf)**: one-click resource summary
+
+Regenerate with the app running: `backend/.venv/Scripts/python scripts/export_samples.py`.
 
 ## Presentation & demo
 - `presentation/SWFL-Compass.pptx`: 10-slide hackathon deck with speaker notes; the demo video is embedded on slide 4.
