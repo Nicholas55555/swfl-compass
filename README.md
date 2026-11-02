@@ -1,12 +1,28 @@
 # 🧭 SWFL Compass
 
-**AI for SWFL** (FGCU AI Day H{AI}ckathon) — an agentic guide for people who live, study, work in,
+**AI for SWFL** (FGCU AI Day H{AI}ckathon): an agentic guide for people who live, study, work in,
 or visit Southwest Florida.
+
+![SWFL Compass demo](docs/demo/swfl-compass-demo.gif)
+
+▶️ **[Full demo video (MP4, 1 min)](docs/demo/swfl-compass-demo.mp4)** · 📊 **[Presentation (PPTX)](presentation/SWFL-Compass.pptx)**
 
 Ask a question and the agent searches the web, reads pages, checks real places on Google Maps,
 answers with links and a map, points you to the most helpful resources, summarizes any of them on
 request, and suggests what to ask next. It can also **plan a day-by-day itinerary** or **write a
 practical guide** that you can download as Markdown or print to PDF.
+
+## Screenshots
+
+| Ask anything, as a resident, student, worker or visitor | A researched, sourced answer |
+|---|---|
+| ![Welcome screen](docs/demo/01-welcome.png) | ![Answer](docs/demo/03-answer.png) |
+| **Real places from Google Maps, pinned on a map** | **Helpful resources with one-click summaries** |
+| ![Map](docs/demo/04-map.png) | ![Resource summary](docs/demo/05-resources-summary.png) |
+| **Itinerary builder** | **Generated itinerary document** |
+| ![Itinerary builder](docs/demo/07-itinerary-builder.png) | ![Itinerary](docs/demo/08-itinerary-doc.png) |
+| **Itinerary places with ratings and open-now** | **Works on phones** |
+| ![Itinerary map](docs/demo/10-itinerary-map.png) | <img src="docs/demo/11-mobile.png" alt="Mobile" width="260"> |
 
 ## Features
 - **Agentic research**: Gemini function-calling loop. Each step streams live to the UI
@@ -45,6 +61,13 @@ searxng/  settings.yml (+ optional saved image) — the search engine this app r
 - **Resilience / cost**: cheapest model first (`gemini-3.1-flash-lite`) with fallbacks on
   overload; retries on empty or malformed responses; if research fails mid-loop, the agent answers
   from what it has gathered.
+
+## Presentation & demo
+- `presentation/SWFL-Compass.pptx`: 10-slide hackathon deck with speaker notes; the demo video is embedded on slide 4.
+  Rebuild with `cd presentation && npm install && npm run build`.
+- `docs/demo/`: demo video (MP4 + GIF) and screenshots, recorded from the running app by
+  `scripts/record_demo.py` (Playwright). Re-record with the app running:
+  `backend/.venv/Scripts/python -m pip install playwright imageio-ffmpeg && backend/.venv/Scripts/python -m playwright install chromium && backend/.venv/Scripts/python scripts/record_demo.py`
 
 ## Run (Windows)
 Prereqs: Python 3.12, Node 20, Docker Desktop running.

@@ -12,3 +12,7 @@ dist/
 searxng/searxng-image.tar
 # hackathon photos
 *.jpg
+# demo recording intermediates
+docs/demo/raw/
+# deck build deps
+presentation/node_modules/
