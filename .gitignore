@@ -1,0 +1,14 @@
+# secrets
+.env
+*.env.local
+# python
+.venv/
+__pycache__/
+*.pyc
+# node
+node_modules/
+dist/
+# large local artifacts
+searxng/searxng-image.tar
+# hackathon photos
+*.jpg

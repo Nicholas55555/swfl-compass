@@ -1,0 +1,25 @@
+# SWFL Compass SearXNG overrides (mounted at /etc/searxng). Tuned for flaky shared
+# networks: longer request timeout, short engine suspensions, no bot limiter.
+use_default_settings: true
+
+server:
+  secret_key: "swfl-compass-local-hackathon"
+  limiter: false
+  image_proxy: false
+
+search:
+  safe_search: 1
+  formats:
+    - html
+    - json
+  suspended_times:
+    SearxEngineAccessDenied: 120
+    SearxEngineCaptcha: 120
+    SearxEngineTooManyRequests: 120
+    cf_SearxEngineCaptcha: 120
+    cf_SearxEngineAccessDenied: 120
+    recaptcha_SearxEngineCaptcha: 120
+
+outgoing:
+  request_timeout: 6.0
+  max_request_timeout: 10.0

@@ -1,0 +1,15 @@
+# Optional: run SearXNG yourself instead of letting the backend auto-start it.
+#   docker compose up -d
+#   then set SEARXNG_BASE_URL=http://localhost:8888 in backend/.env
+services:
+  searxng:
+    image: searxng/searxng:2025.7.19-b95a3e9
+    container_name: swfl-compass-searxng-compose
+    ports:
+      - "8888:8080"
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    restart: unless-stopped
